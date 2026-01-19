@@ -1,0 +1,145 @@
+.HomeTopBar
+{
+    /* 1. STICKY POSITIONING */
+    position: sticky;
+    top: 0;
+    z-index: 100; /* Keeps it above scrolling content */
+
+    /* 2. FLEXBOX LAYOUT (Keeps your layout logic) */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    /* 3. PERMANENT GLASS EFFECT */
+    /* We use your blue (#193a7c) but with 0.85 opacity so background shows through */
+    background-color: rgba(25, 58, 124, 0.85); 
+    
+    /* The Blur Magic */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px); /* Safari support */
+
+    /* Border & Shape */
+    height: 100%; /* Ensure parent container allows this height to be defined */
+    min-height: 80px; /* Force a height if % isn't working */
+    width: 100%;
+    
+    /* Optional: A thin border helps separate the glass from content */
+    border-bottom: 1px solid rgba(18, 50, 114, 0.85); 
+    
+    /* Removing the bottom radius usually looks better for sticky bars, 
+       but you can keep them if you prefer the "floating pill" look */
+    border-bottom-left-radius: 0; 
+    border-bottom-right-radius: 0;
+
+    padding: 0 20px;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+}
+
+.Logo {
+    /* Layout & Position */
+    font-size: 1.8rem; /* Made slightly bigger for impact */
+    font-weight: 700;  /* Bold thickness like the image */
+    
+    /* Font Style */
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; /* Clean modern font */
+    letter-spacing: -1px; /* Tucks the letters slightly closer together */
+    
+    /* Colors */
+    color: white; /* Changed from Black to White for visibility on Blue header */
+    
+    /* Prevent squishing */
+    flex-shrink: 0;
+    margin-right: 20px;
+    cursor: default; /* Optional: indicates it's not a button */
+}
+
+.LogoAccent {
+    color: #0ea5e9; /* The same "Sky Blue" as your new login buttons */
+}
+
+.ButtonBar
+{
+    /* THE FLUID MIDDLE */
+    flex: 1;           /* Grow to fill all empty space */
+    min-width: 0;      /* CRITICAL: Allows scrolling to work! */
+    display: flex;
+    justify-content: center; /* Visually center the buttons */
+    
+    /* SCROLL SETUP */
+    overflow-x: auto;
+    white-space: nowrap;
+    scrollbar-width: none; /* Firefox hidden scroll */
+    
+    /* STYLING */
+    list-style: none;
+    gap: 30px; /* Use PX, not %, for stable spacing */
+    margin: 0;
+    padding: 0 20px; /* internal spacing */
+}
+
+.ButtonBar::-webkit-scrollbar {
+    display: none; /* Chrome/Safari hidden scroll */
+}
+
+.LoginButtons
+{
+    /* FIX FOR "SIGN UP" GOING BELOW */
+    display: flex;
+    gap: 15px;
+    
+    /* CRITICAL LOCKS */
+    white-space: nowrap; /* Forces text to stay on one line */
+    flex-shrink: 0;      /* Prevents buttons from being crushed */
+    margin-left: 20px;   /* Space between nav and login */
+}
+
+/* Common Base Styles for both buttons */
+.AuthButton {
+    font-family: inherit; /* Uses your site's font */
+    font-weight: 600;     /* Makes text slightly bold like the image */
+    font-size: 1rem;
+    padding: 0.6rem 1.8rem; /* Creates the wide "pill" shape */
+    border-radius: 50px;    /* Perfectly rounded corners */
+    cursor: pointer;
+    transition: all 0.3s ease; /* Smooth hover animation */
+    white-space: nowrap;
+}
+
+/* 1. Login Button (The Outline Style) */
+.BtnLogin {
+    background-color: transparent;
+    border: 2px solid #0ea5e9; /* Bright Sky Blue Border */
+    color: #0ea5e9;            /* Matching Text Color */
+}
+
+.BtnLogin:hover {
+    background-color: rgba(14, 165, 233, 0.1); /* Subtle glow background on hover */
+    transform: translateY(-2px); /* Slight lift */
+}
+
+/* 2. Sign Up Button (The Solid Style) */
+.BtnSignup {
+    background-color: #0ea5e9; /* Solid Blue Background */
+    border: 2px solid #0ea5e9; /* Border matches bg */
+    color: white;              /* White text for contrast */
+    
+    /* The subtle shadow seen in your image */
+    box-shadow: 0 4px 10px rgba(14, 165, 233, 0.3); 
+}
+
+.BtnSignup:hover {
+    background-color: #0284c7; /* Slightly darker blue on hover */
+    border-color: #0284c7;
+    transform: translateY(-2px); /* Slight lift */
+    box-shadow: 0 6px 15px rgba(14, 165, 233, 0.5); /* Stronger shadow */
+}
+
+/* Ensure the container aligns them nicely */
+.LoginButtons {
+    display: flex;
+    align-items: center; /* Vertically centers them */
+    gap: 15px;           /* Space between the two buttons */
+    margin-left: 20px;
+    flex-shrink: 0;
+}

@@ -1,0 +1,46 @@
+.MinimalButton {
+    position: relative;
+    background-color: transparent;
+    color: #e0e0e0; 
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    
+    /* SCALING FIX 1: Use 'rem' for font size and padding. 
+       This ensures the button size is based on readability, not screen width. */
+    font-size: 1rem;       /* Approx 16px, scales with device settings */
+    padding: 0.5rem 1rem;  /* Proportional padding (approx 8px top/bottom, 16px sides) */
+    
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.MinimalButton:hover {
+    /* Translate using em/rem ensures movement is proportional to text size */
+    transform: translateY(-0.2rem) scale(1.09); 
+    color: rgb(68, 167, 243);
+    text-decoration: none;
+}
+
+.MinimalButton::after {
+    content: "";
+    position: absolute;
+    
+    /* CENTERING LOGIC (Remains the same as it's the most robust method) */
+    left: 50%;
+    transform: translateX(-50%);
+    
+    /* SCALING FIX 2: Distance from text */
+    bottom: 0.2rem; /* Always slighty below the text, regardless of screen size */
+
+    width: 0%; 
+    
+    /* SCALING FIX 3: Thickness */
+    height: 0.15rem; /* ~2.4px. Thick enough to see on mobile, not huge on 4K */
+    
+    background-color: rgb(57, 140, 204);
+    transition: width 0.3s ease-in-out;
+}
+
+.MinimalButton:hover::after {
+    width: 80%;
+}

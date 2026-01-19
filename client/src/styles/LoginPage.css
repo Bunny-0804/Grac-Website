@@ -1,0 +1,102 @@
+/* Center everything on the page */
+.login-page-container {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Assuming the global body background is already your dark blue */
+}
+
+/* The main glass card holding the form */
+.glass-login-box {
+    width: 100%;
+    max-width: 400px;
+    padding: 40px;
+    border-radius: 24px;
+    text-align: center;
+    color: #ffffff;
+
+    /* Glassmorphism Effect */
+    background: rgba(255, 255, 255, 0.05); /* Very sheer white */
+    backdrop-filter: blur(20px);           /* Strong blur behind it */
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle border */
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); /* Deep shadow for depth */
+}
+
+.login-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.login-subtitle {
+    color: #e2e8f0;
+    margin-bottom: 30px;
+}
+
+.input-wrapper {
+    margin-bottom: 20px;
+}
+
+/* --- THE "LIQUID GLASS" INPUTS --- */
+.liquid-glass-input {
+    width: 100%;
+    padding: 15px 20px;
+    font-size: 1rem;
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.07); /* More transparent than container */
+    border: 1px solid rgba(255, 255, 255, 0.2); /* Crisper border */
+    border-radius: 12px; /* Soft, liquid-like corners */
+    outline: none;
+    transition: all 0.3s ease;
+
+    /* Ensures the autofill background doesn't ruin the glass look in Chrome */
+    -webkit-background-clip: text;
+}
+
+/* Style the placeholder text so it's readable */
+.liquid-glass-input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* Effect when clicking inside the input */
+.liquid-glass-input:focus {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: #0ea5e9; /* Accent blue border on focus */
+    box-shadow: 0 0 20px rgba(14, 165, 233, 0.3); /* Subtle blue glow */
+    transform: scale(1.02); /* Slight pulse effect */
+}
+
+
+/* --- THE BLUE PILL BUTTON --- */
+/* Matching the "Join the Club" style */
+.blue-pill-btn {
+    width: 100%;
+    padding: 15px;
+    margin-top: 10px;
+    
+    background-color: #0ea5e9; /* The specific bright sky blue */
+    color: white;
+    border: none;
+    border-radius: 50px; /* Full pill shape */
+    
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    
+    /* A soft glow shadow beneath the button */
+    box-shadow: 0 6px 20px rgba(14, 165, 233, 0.4);
+}
+
+.blue-pill-btn:hover {
+    background-color: #0284c7; /* Slightly darker on hover */
+    transform: translateY(-3px); /* Lifts up slightly */
+    box-shadow: 0 10px 25px rgba(14, 165, 233, 0.6); /* Intense glow on hover */
+}
+
+.blue-pill-btn:active {
+    transform: translateY(-1px);
+}

@@ -1,0 +1,37 @@
+/* HomePage.css */
+
+.HomePage {
+    width: 100%;
+    min-height: 100vh;
+    position: relative;
+    background-color: rgba(25, 58, 124, 0.85); 
+    overflow-x: hidden;
+}
+
+/* THE PARENT WRAPPER */
+/* RESPONSIBILITY: Positioning and External Scaling */
+.HomePageHeader {
+    /* 1. Fix it to the screen so it floats over content */
+    position: fixed;
+    top: 0;
+    left: 0;
+    
+    /* 2. Define the Geometry (Your Scaling Logic) */
+    width: 100%;
+    height: 7vh; /* Or 7% of viewport height */
+    
+    /* 3. Safety: Don't let 7% get too small on phones */
+    min-height: 60px; 
+    
+    /* 4. Layering: Ensure it sits on top of Body */
+    z-index: 100;
+}
+
+.HomePageBody {
+    width: 100%;
+    
+    /* Optional: If you want text to start VISIBLE below the header, 
+       add padding matching the header's approx height. 
+       If you want it to start BEHIND the glass immediately, remove this. */
+    padding-top: 15vh; 
+}
