@@ -9,6 +9,7 @@ services:
       - "5432:5432"  # Added this so you can use pgAdmin!
     volumes:
       - db_data:/var/lib/postgresql/data
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - grac_network
 
