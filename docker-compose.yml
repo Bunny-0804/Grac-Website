@@ -1,0 +1,20 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: jeevan
+      POSTGRES_PASSWORD: secure_password
+      POSTGRES_DB: grac_db
+    ports:
+      - "5432:5432"  # Added this so you can use pgAdmin!
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - grac_network
+
+# You must define the "items" you used above here:
+volumes:
+  db_data:
+
+networks:
+  grac_network:
