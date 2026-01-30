@@ -25,7 +25,7 @@ CREATE TABLE event ( event_id SERIAL PRIMARY KEY,
 
 CREATE TABLE task ( task_id SERIAL PRIMARY KEY,
                      task_description VARCHAR(200) NOT NULL,
-                     task_assignment_date DATE NOT NULL DEFAULT CURRENT_DATE,
+                     task_assignment_date DATE NOT NULL,
                      task_due_date DATE NOT NULL CHECK (task_due_date >= task_assignment_date),
                      project_id INT,
                      FOREIGN KEY (project_id) REFERENCES project (project_id) ON DELETE CASCADE

@@ -64,39 +64,38 @@ INSERT INTO resource (resource_name) VALUES
 ('Step Motor'), ('Camera Module'), ('Bluetooth HC-05'), ('Wifi Router'), 
 ('Ethernet Cable'), ('Screwdriver Set');
 
--- 4. Event (25 entries - linked to Projects 1-25)
+-- 4. Event (25 entries)
 INSERT INTO event (event_start_date, event_end_date, project_id) 
-SELECT project_start_date, project_start_date + INTERVAL '2 days', project_id FROM Project;
+SELECT project_start_date, project_start_date + INTERVAL '2 days', project_id FROM project;
 
--- 5. Task (25 entries - linked to Projects)
-INSERT INTO task (task_description, task_due_date, project_id) VALUES
-('Define DB Schema', '2026-01-25', 2),
-('Setup Docker PG', '2026-01-28', 2),
-('Build Auth Route', '2026-02-10', 2),
-('Clean Dataset', '2025-09-20', 1),
-('Train Model', '2025-11-15', 1),
-('Circuit Design', '2025-10-20', 3),
-('Assemble Frame', '2025-10-30', 3),
-('Logic Coding', '2025-11-10', 3),
-('Sensor Mounting', '2026-01-10', 6),
-('API Integration', '2026-03-01', 15),
-('Dockerize Frontend', '2026-02-15', 18),
-('Security Audit', '2025-12-05', 20),
-('Write Docs', '2026-05-01', 2),
-('Testing Beta', '2026-04-15', 2),
-('Buy Components', '2025-08-10', 5),
-('Soldering', '2025-09-01', 5),
-('UI Prototypes', '2025-07-15', 10),
-('Collect Images', '2026-02-15', 21),
-('Annotation', '2026-03-01', 21),
-('Training CNN', '2026-04-01', 21),
-('Final Demo', '2026-05-10', 2),
-('Hardware Fix', '2025-11-25', 9),
-('Battery Check', '2025-12-15', 7),
-('Simulation Gazebo', '2026-01-05', 7),
-('PR Review', '2026-01-30', 2);
-
--- 6. Junction Tables (Sample relationships)
+-- 5. Task (Explicitly providing all NOT NULL dates)
+INSERT INTO task (task_description, task_assignment_date, task_due_date, project_id) VALUES
+('Define DB Schema', '2026-01-30', '2026-02-15', 2),
+('Setup Docker PG', '2026-02-16', '2026-02-20', 2),
+('Build Auth Route', '2026-02-21', '2026-03-10', 2),
+('Clean Dataset', '2026-01-30', '2026-10-20', 1),
+('Train Model', '2026-10-21', '2026-11-15', 1),
+('Circuit Design', '2026-01-30', '2026-10-20', 3),
+('Assemble Frame', '2026-10-21', '2026-10-30', 3),
+('Logic Coding', '2026-10-31', '2026-11-10', 3),
+('Sensor Mounting', '2026-01-30', '2026-08-10', 6),
+('API Integration', '2026-01-30', '2026-09-01', 15),
+('Dockerize Frontend', '2026-01-30', '2026-08-15', 18),
+('Security Audit', '2026-11-01', '2026-12-05', 20),
+('Write Docs', '2026-10-01', '2026-11-01', 2),
+('Testing Beta', '2026-09-15', '2026-10-15', 2),
+('Buy Components', '2026-07-10', '2026-08-10', 5),
+('Soldering', '2026-08-11', '2026-09-01', 5),
+('UI Prototypes', '2026-07-15', '2026-08-15', 10),
+('Collect Images', '2026-07-15', '2026-08-15', 21),
+('Annotation', '2026-08-16', '2026-09-01', 21),
+('Training CNN', '2026-09-02', '2026-10-01', 21),
+('Final Demo', '2026-11-01', '2026-11-10', 2),
+('Hardware Fix', '2026-11-10', '2026-11-25', 9),
+('Battery Check', '2026-12-01', '2026-12-15', 7),
+('Simulation Gazebo', '2026-07-05', '2026-08-05', 7),
+('PR Review', '2026-02-20', '2026-02-28', 2);
+-- 6. Junction Tables
 INSERT INTO task_assignment (task_id, member_id) VALUES 
 (1, 1), (2, 1), (3, 1), (4, 3), (5, 5);
 
