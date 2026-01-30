@@ -1,5 +1,5 @@
 -- 1. Club_member (25 entries)
-INSERT INTO Club_member (password_hash, member_roll_no, member_email, member_role) VALUES
+INSERT INTO club_member (password_hash, member_roll_no, member_email, member_role) VALUES
 ('hash1', '22BCE001', 'arjun.m@grac.edu', 'Lead'),
 ('hash2', '22BCE002', 'priya.s@grac.edu', 'Member'),
 ('hash3', '22BCE003', 'rohan.d@grac.edu', 'Admin'),
@@ -27,7 +27,7 @@ INSERT INTO Club_member (password_hash, member_roll_no, member_email, member_rol
 ('hash25', '22BCE025', 'yash.w@grac.edu', 'Member');
 
 -- 2. Project (25 entries)
-INSERT INTO Project (project_name, project_description, project_start_date, project_end_date) VALUES
+INSERT INTO project (project_name, project_description, project_start_date, project_end_date) VALUES
 ('AI Resume Profiler', 'Mistral-based internship matcher', '2025-09-01', '2025-12-30'),
 ('Club Website', 'Full stack React/Node/Postgres app', '2026-01-10', '2026-05-15'),
 ('Line Follower', 'Arduino-based IR sensor bot', '2025-10-15', '2025-11-20'),
@@ -55,7 +55,7 @@ INSERT INTO Project (project_name, project_description, project_start_date, proj
 ('Sentiment Analyzer', 'NLTK based tweet analysis', '2025-09-10', '2025-11-05');
 
 -- 3. Resource (25 entries)
-INSERT INTO Resource (resource_name) VALUES
+INSERT INTO resource (resource_name) VALUES
 ('Arduino Uno'), ('ESP32'), ('Raspberry Pi 4'), ('Ultrasonic Sensor'), 
 ('Lidar Module'), ('IR Sensor'), ('Servo Motor'), ('Breadboard'), 
 ('Jumper Wires'), ('3D Printer Filament'), ('NVIDIA Jetson'), 
@@ -65,11 +65,11 @@ INSERT INTO Resource (resource_name) VALUES
 ('Ethernet Cable'), ('Screwdriver Set');
 
 -- 4. Event (25 entries - linked to Projects 1-25)
-INSERT INTO Event (event_start_date, event_end_date, project_id) 
+INSERT INTO event (event_start_date, event_end_date, project_id) 
 SELECT project_start_date, project_start_date + INTERVAL '2 days', project_id FROM Project;
 
 -- 5. Task (25 entries - linked to Projects)
-INSERT INTO Task (task_description, task_due_date, project_id) VALUES
+INSERT INTO task (task_description, task_due_date, project_id) VALUES
 ('Define DB Schema', '2026-01-25', 2),
 ('Setup Docker PG', '2026-01-28', 2),
 ('Build Auth Route', '2026-02-10', 2),
@@ -97,15 +97,15 @@ INSERT INTO Task (task_description, task_due_date, project_id) VALUES
 ('PR Review', '2026-01-30', 2);
 
 -- 6. Junction Tables (Sample relationships)
-INSERT INTO Task_assignment (task_id, member_id) VALUES 
+INSERT INTO task_assignment (task_id, member_id) VALUES 
 (1, 1), (2, 1), (3, 1), (4, 3), (5, 5);
 
-INSERT INTO Task_resources (task_id, resource_id) VALUES 
+INSERT INTO task_resources (task_id, resource_id) VALUES 
 (6, 1), (6, 6), (7, 10), (8, 1), (15, 2);
 
-INSERT INTO Position (member_id, event_role, event_id) VALUES 
+INSERT INTO position (member_id, event_role, event_id) VALUES 
 (1, 'Lead Organizer', 2), (7, 'Technical Head', 1), (13, 'Speaker', 7);
 
-INSERT INTO Task_attachment (task_id, file_name, file_url, file_type) VALUES 
+INSERT INTO task_attachment (task_id, file_name, file_url, file_type) VALUES 
 (1, 'schema_v1.png', 'http://grac.storage/schema', 'image/png'),
 (2, 'docker-compose.yml', 'http://grac.storage/docker', 'text/yaml');
