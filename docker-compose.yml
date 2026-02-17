@@ -6,7 +6,7 @@ services:
       POSTGRES_PASSWORD: ${Db_password}
       POSTGRES_DB: grac_db
     ports:
-      - "5432:5432"  # Added this so you can use pgAdmin!
+      - "5432:${db_port}"  # Added this so you can use pgAdmin!
     volumes:
       - db_data:/var/lib/postgresql/data
       - ./database/01_schema.sql:/docker-entrypoint-initdb.d/01_init.sql
