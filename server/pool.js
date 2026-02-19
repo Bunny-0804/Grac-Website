@@ -12,7 +12,7 @@ const pool = new Pool(
         port:process.env.db_port,
 
         max: process.env.pool_connection_limit,
-        idleTimeoutMillis: 180000, //How long a connection stays active after initiation before closing
+        idleTimeoutMillis: process.env.pool_timeout_limit, //How long a connection stays active after initiation before closing
         connectionTimeoutMillis: 50000 
     }
 );
