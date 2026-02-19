@@ -1,9 +1,9 @@
 const path = require('path');
 const db = require(path.resolve(__dirname,'../pool.js'));
-const query = require(path.resolve(__dirname,'../queries/Join.js'));
+const query = require(path.resolve(__dirname,'../queries/project_table.js'));
 
 const FetchStudentProjects = async(req,res) => {
-    console.log("reached here");
+    //console.log("reached here");
     try
     {
         const req_data = req.query;
