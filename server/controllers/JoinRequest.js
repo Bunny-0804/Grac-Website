@@ -2,13 +2,15 @@
 const path = require('path');
 const db = require(path.resolve(__dirname, '../pool.js'));
 const query = require(path.resolve(__dirname, '../queries/applicant_table.js'));
+const bcrypt = require('bcrypt');
 
 const JoinRequest = async (req, res) => {
     const data = req.body;
     //console.log("reached here");
     try {
+        const pass_hash = await bcrypt.hash(data.pass_hash,10);
         //await to ensure the query has been executed
-        const result = await db.query(query.applytoJoin, [data.pass_hash, data.roll_no, data.email]);
+        const result = await db.query(query.applytoJoin, [pass_hash, data.roll_no, data.email]);
         res.status(200).json({ success: true , message: "request sent" });
     }
     catch (error) {
