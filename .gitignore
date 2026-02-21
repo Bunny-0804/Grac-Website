@@ -12,3 +12,7 @@ node_modules/
 
 # System files
 .DS_Store
+
+#Certificates
+/certificates
+*.pem

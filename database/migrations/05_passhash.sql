@@ -1,0 +1,10 @@
+ALTER TABLE club_member ALTER COLUMN password_hash TYPE VARCHAR(60);
+ALTER TABLE applicants ALTER COLUMN password_hash TYPE VARCHAR(60);
+ALTER TABLE applicants ADD COLUMN applicant_name VARCHAR(100);
+UPDATE applicants SET applicant_name = 'Rahul' WHERE applicant_id = 1;
+UPDATE applicants SET applicant_name = 'Karthik' WHERE applicant_id = 4;
+UPDATE applicants SET applicant_name = 'Vishal' WHERE applicant_id = 14;
+UPDATE applicants SET applicant_name = 'raj' WHERE applicant_id = 15;
+UPDATE applicants SET applicant_name = 'Jeevan Preetham' WHERE applicant_id = 16;
+UPDATE applicants SET applicant_name = 'Raghu' WHERE applicant_id = 19;
+ALTER TABLE applicants ALTER COLUMN applicant_name SET NOT NULL;
