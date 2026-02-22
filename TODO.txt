@@ -1,3 +1,2 @@
 cursor based paging for data retrival - FectchStudentProjects.js
-check cascade conditions and revisit them 
 change resource names to enum
