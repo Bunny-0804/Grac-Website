@@ -10,7 +10,7 @@ const JoinRequest = async (req, res) => {
     try {
         const pass_hash = await bcrypt.hash(data.pass_hash,10);
         //await to ensure the query has been executed
-        const result = await db.query(query.applytoJoin, [pass_hash, data.roll_no, data.email]);
+        const result = await db.query(query.applytoJoin, [pass_hash, data.roll_no, data.email , data.name]);
         res.status(200).json({ success: true , message: "request sent" });
     }
     catch (error) {

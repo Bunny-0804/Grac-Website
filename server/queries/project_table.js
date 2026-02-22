@@ -10,6 +10,8 @@ const getProjectDetails =   `SELECT t.task_id,
                                     t.task_description,
                                     t.task_assignment_date,
                                     t.task_due_date,
+                                    t.completion,
+                                    t.completion_weightage,
                                     COALESCE(members_lat.data , '[]') AS assigned_members,
                                     COALESCE(attachment_lat.data,'[]') AS attachment,
                                     COALESCE(resources_lat.data,'[]') AS resources
@@ -45,6 +47,8 @@ const project_lookup = `SELECT  p.project_id,
                                 t.task_description,
                                 t.task_assignment_date,
                                 t.task_due_date,
+                                t.completion,
+                                t.completion_weightage,
                                 COALESCE(attachment_lat.data,'[]') AS attachments,
                                 COALESCE(resource_lat.data,'[]') AS resources
                                 FROM task_assignment ta 
