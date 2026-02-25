@@ -1,6 +1,7 @@
 const { Client } = require('pg')
 const fs = require('fs')
-const path = require('path')
+const path = require('path');
+const { CONNREFUSED } = require('dns');
 
 const client = new Client({
     connectionString: 'postgresql://jeevan:DumbPassword123@localhost:5432/grac_db',
@@ -47,7 +48,9 @@ async function migrate() {
                     await client.query('ROLLBACK');
                     console.log(`${file} file execution failed.`);
                     console.log(`Error name: ${error.name}`);
-                    console.log(`Error message: ${error.message}`)
+                    console.log(`Error code: ${error.code}`);
+                    console.log(`Error message: ${error.message}`);
+                    console.log(error);
                     console.log(`Exiting program , relaunch to try again`);
                     await client.end();
                     process.exit(1);
