@@ -8,6 +8,12 @@ const ProjectDetails = require(path.resolve(__dirname,'../controllers/ProjectDet
 const ActiveEvents = require(path.resolve(__dirname,"../controllers/ActiveEvents.js"));
 const AvailableResources = require(path.resolve(__dirname,"../controllers/AvailableResources.js"));
 const StudentResources = require(path.resolve(__dirname,"../controllers/StudentResources.js"));
+const getComments = require(path.resolve(__dirname , '../controllers/GetComments.js'));
+const getTopPosts = require(path.resolve(__dirname , '../controllers/GetTopPosts.js'));
+const getLatestPosts = require(path.resolve(__dirname , '../controllers/GetLatestPosts.js'));
+const getByTagsLatest = require(path.resolve(__dirname , '../controllers/GetByTagsLatest.js'));
+const getByTagsTop = require(path.resolve(__dirname , '../controllers/GetByTagsTop.js'));
+const Post = require(path.resolve(__dirname , '../controllers/Post.js'));
 
 
 console.log("Test member Router");
@@ -18,7 +24,12 @@ router.get('/ProjectDetails',ProjectDetails);
 router.get('/ActiveEvents',ActiveEvents);
 router.get('/AvailableResources',AvailableResources);
 router.get('/StudentResources',StudentResources);
-
+router.get('/getComments',getComments);
+router.get('/getTopPosts',getTopPosts);
+router.get('/getLatestPosts',getLatestPosts);
+router.get('/getByTagsLatest',getByTagsLatest);
+router.get('/getByTagsTop',getByTagsTop);
+router.post('/post',Post);
     
 console.log("memeber router executed");
 
