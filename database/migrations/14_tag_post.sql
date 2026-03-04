@@ -1,0 +1,1 @@
+ALTER TABLE tag ADD COLUMN post_id INT REFERENCES discussion_box (post_id) ON DELETE CASCADE;

@@ -1,0 +1,17 @@
+ALTER TABLE discussion_box ALTER COLUMN member_id SET NOT NULL;
+ALTER TABLE discussion_box ALTER COLUMN votes SET NOT NULL;
+
+ALTER TABLE event ALTER COLUMN event_name SET NOT NULL;
+
+ALTER TABLE position ALTER COLUMN event_id SET NOT NULL;
+ALTER TABLE position ALTER COLUMN member_id SET NOT NULL;
+
+ALTER TABLE task ALTER COLUMN project_id SET NOT NULL;
+
+ALTER TABLE task_assignment ALTER COLUMN task_id SET NOT NULL;
+ALTER TABLE task_assignment ALTER COLUMN member_id SET NOT NULL;
+
+ALTER TABLE task_attachment ALTER COLUMN task_id SET NOT NULL;
+ALTER TABLE task_attachment ALTER COLUMN file_type SET NOT NULL;
+
+ALTER TABLE task_resources ALTER COLUMN task_id SET NOT NULL;
