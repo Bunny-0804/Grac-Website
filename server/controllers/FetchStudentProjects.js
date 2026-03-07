@@ -6,7 +6,7 @@ const FetchStudentProjects = async(req,res) => {
     //console.log("reached here");
     try
     {
-        const req_data = req.query;
+        const req_data = req.user;
         const result = await db.query(query.project_lookup,[req_data.member_id]);
         if(result.rowCount == 0)
         {

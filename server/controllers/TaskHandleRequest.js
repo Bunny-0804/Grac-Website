@@ -1,19 +1,15 @@
-//import path and use path to properly locate pool and query
 const path = require('path');
-const db = require(path.resolve(__dirname, '../pool.js'));
-const query = require(path.resolve(__dirname, '../queries/applicant_table.js'));
-const bcrypt = require('bcrypt');
+const db = require(path.resolve(__dirname , '../pool.js'));
+const query = require(path.resolve(__dirname , '../queries/project_table.js'));
 
-const JoinRequest = async (req, res) => {
-    const data = req.body;
-    //console.log("reached here");
-    try {
-        const pass_hash = await bcrypt.hash(data.pass_hash,10);
-        //await to ensure the query has been executed
-        const result = await db.query(query.applytoJoin, [pass_hash, data.roll_no, data.email , data.name , data.domain , data.application_url]);
-        res.status(200).json({ success: true , message: "request sent" });
+const handleRequest = async(req,res) => {
+    try
+    {
+        const result = await db.query(query.handleRequest , [req.user.member_id , req.query.task_id]);
+        res.status(200).json({success : true , message: "request sent"});
     }
-    catch (error) {
+    catch(error)
+    {
         console.log(`${error.code}`);
         console.log(`${error}`)
         // 1. Handle Duplicates (e.g., Email already exists)
@@ -47,6 +43,6 @@ const JoinRequest = async (req, res) => {
             });
         }
     }
-}
+};
 
-module.exports = JoinRequest;
+module.exports = handleRequest;

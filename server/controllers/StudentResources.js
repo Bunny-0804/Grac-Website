@@ -5,7 +5,7 @@ const query = require(path.resolve(__dirname , '../queries/resources_table.js'))
 const StudentResources = async(req,res) => {
     try
     {
-        const req_body = req.query;
+        const req_body = req.user;
         const result = await db.query(query.myResources , [req_body.member_id]);
         res.status(200).json({success : true , message : "Data found" , data : result.rows});
     }

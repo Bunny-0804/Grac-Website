@@ -8,4 +8,5 @@ const SignIn = require(path.resolve(__dirname,'../controllers/SignIn.js'));
 router.post('/apply',JoinRequest);
 router.post('/SignIn',SignIn);
 
+
 module.exports = router;
