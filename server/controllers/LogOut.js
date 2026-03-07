@@ -1,17 +1,13 @@
-//import path and use path to properly locate pool and query
 const path = require('path');
 const db = require(path.resolve(__dirname, '../pool.js'));
-const query = require(path.resolve(__dirname, '../queries/applicant_table.js'));
-const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+require('dotenv').config({ path: path.resolve(__dirname, '../../.env') });
 
-const JoinRequest = async (req, res) => {
-    const data = req.body;
-    //console.log("reached here");
-    try {
-        const pass_hash = await bcrypt.hash(data.pass_hash,10);
-        //await to ensure the query has been executed
-        const result = await db.query(query.applytoJoin, [pass_hash, data.roll_no, data.email , data.name , data.domain , data.application_url]);
-        res.status(200).json({ success: true , message: "request sent" });
+const LogOut =  (req, res) => {
+    try 
+    {
+        res.clearCookie('authorization',{httpOnly: true , secure : true , sameSite : 'Strict' , maxAge : 15*60*1000});    
+        res.status(200).json({success : true , message : "Logged Out successfully"});
     }
     catch (error) {
         console.log(`${error.code}`);
@@ -40,13 +36,13 @@ const JoinRequest = async (req, res) => {
             });
         }
         // 4. Catch-All for everything else (Syntax errors, DB crashes)
-        else{
+        else {
             res.status(500).json({
-            success: false,
-            message: "Internal Server Error. Please try again later."
+                success: false,
+                message: "Internal Server Error. Please try again later."
             });
         }
     }
 }
 
-module.exports = JoinRequest;
+module.exports = LogOut;

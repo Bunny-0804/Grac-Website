@@ -69,8 +69,11 @@ const project_lookup = `SELECT  p.project_id,
                                   WHERE tr.task_id = ta.task_id ) resource_lat ON TRUE 
                                 WHERE ta.member_id = ($1)`;
 
+const handleRequest = `INSERT INTO handle_request(member_id , task_id) VALUES ($1 , $2)`;
+
 module.exports = {
     getProjects,
     getProjectDetails , 
-    project_lookup
+    project_lookup,
+    handleRequest
 } ;

@@ -1,36 +1,22 @@
+//import path and use path to properly locate pool and query
 const path = require('path');
 const db = require(path.resolve(__dirname, '../pool.js'));
 const query = require(path.resolve(__dirname, '../queries/members_table.js'));
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-require('dotenv').config({path : path.resolve(__dirname , '../../.env')});
+const query2 = require(path.resolve(__dirname, '../queries/applicant_table.js'));
 
-const SignIn = async (req, res) => {
-    try 
-    {
-        const req_data = req.body;
-        const result = await db.query(query.getMember_id, [req_data.member_roll_no]);
-        if (result.rowCount == 0) 
-        {
-            res.status(404).json({ success: false, message: "No user found" });
-        }
-        else 
-        {
-            if (await bcrypt.compare(req_data.password, result.rows[0].password_hash)) 
-            {
-                const user = {member_id : result.rows[0].member_id , member_name : result.rows[0].member_name , member_role : result.rows[0].member_role};
-                const token = jwt.sign(user , process.env.jwt_key , {expiresIn : '15m'});
-                res.cookie('authorization' , token , {httpOnly: true , secure : true , sameSite : 'Strict' , maxAge : 15*60*1000});  
-                res.status(200).json({ success: true, message: "valid password" , data : {member_id : result.rows[0].member_id , member_name : result.rows[0].member_name}});
-            }
-            else 
-            {
-                res.status(401).json({ success: false, message: "Invalid password" });
-            }
-        }
+const JoinRequest = async (req, res) => {
+    //console.log("reached here");
+    const client = await db.pool.connect();
+    try {
+        const data = req.body;
+        await client.query('BEGIN');
+        await client.query(query.admitMember , [data.role , data.applicant_id]);
+        await client.query(query2.setStatus , [data.applicant_id]);
+        await client.query('COMMIT');
+        res.status(200).json({success : true , message : "member added successfully"});
     }
-    catch (error) 
-    {
+    catch (error) { 
+        await client.query('ROLLBACK');
         console.log(`${error.code}`);
         console.log(`${error}`)
         // 1. Handle Duplicates (e.g., Email already exists)
@@ -64,6 +50,10 @@ const SignIn = async (req, res) => {
             });
         }
     }
+    finally
+    {
+        client.release();  
+    }
 }
 
-module.exports = SignIn;
+module.exports = JoinRequest;

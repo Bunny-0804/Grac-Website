@@ -6,7 +6,7 @@ const post = async(req,res) => {
     try
     {
         const req_data = req.body;
-        const result = await db.query(query.post , [req_data.discussion_header , req_data.discussion_body , req_data.discussion_tag , req_data.tag_id , req_data.member_id]);
+        const result = await db.query(query.post , [req_data.discussion_header , req_data.discussion_body , req_data.discussion_tag , req_data.tag_id , req.user.member_id]);
         res.status(200).json({success : true , message: "post sent"});
     }
     catch(error)
