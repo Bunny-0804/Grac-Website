@@ -1,0 +1,182 @@
+============================================================
+DATABASE DOCUMENTATION: CLUB MANAGEMENT SYSTEM
+Generated Date: March 8, 2026
+============================================================
+
+------------------------------------------------------------
+1. CUSTOM ENUMERATIONS (TYPES)
+------------------------------------------------------------
+
+- member_status     : ['active', 'left']
+- measures          : ['completed', 'assigned', 'unassigned', 'archived']
+- assignment_status : ['assigned', 'unassigned', 'unavailable']
+- tags              : ['Project_idea', 'Event_idea', 'Resource_request', 'Help Wanted', 'General', 'Comment']
+- flags             : ['up', 'down', 'flag']
+- member_tags       : ['Member', 'Lead', 'Admin', 'Alumni']
+- applicant_status  : ['accepted', 'rejected', 'pending']
+- domains           : ['marketing', 'technical']
+
+------------------------------------------------------------
+2. TABLE DEFINITIONS
+------------------------------------------------------------
+
+TABLE: _migrations
+Purpose: Tracks database schema versioning and executed migration scripts.
+- id (int4, SERIAL, PK)
+- filename (varchar(155)): Name of the migration file.
+- executed_at (timestamp): Time of execution.
+
+TABLE: club_member
+Purpose: Stores core data for all registered club members, including roles and status.
+- member_id (int4, SERIAL, PK)
+- member_name (varchar(100), NOT NULL): Full name of the member.
+- password_hash (varchar(60), NOT NULL): Bcrypt hash and salt.
+- member_roll_no (varchar(20), UNIQUE, NOT NULL): Student ID/Roll number.
+- member_email (varchar(100), UNIQUE, NOT NULL): Contact email.
+- member_role (member_tags, NOT NULL, DEFAULT 'Member'): Access level/Rank.
+- club_joining (timestamp, DEFAULT CURRENT_TIMESTAMP): Date joined.
+- status (member_status, DEFAULT 'active'): Current standing in the club.
+- domain (domains, NOT NULL, DEFAULT 'technical'): Assigned department.
+
+TABLE: project
+Purpose: High-level tracking of club-sanctioned projects.
+- project_id (int4, SERIAL, PK)
+- project_name (varchar(100), NOT NULL): Name of the project.
+- project_description (TEXT): Detailed objectives.
+- project_start_date (DATE, NOT NULL): Planned start.
+- project_end_date (DATE, NOT NULL): Planned end (CHECK: end >= start).
+
+TABLE: resource
+Purpose: Inventory management for physical or digital assets.
+- resource_id (int4, SERIAL, PK)
+- resource_name (varchar(100), NOT NULL): Description of the resource.
+- resource_status (assignment_status, NOT NULL, DEFAULT 'unassigned'): Availability state.
+
+TABLE: event
+Purpose: Timeline and description for specific club events.
+- event_id (int4, SERIAL, PK)
+- event_name (varchar(100), NOT NULL): Name of the event.
+- event_description (TEXT): Details/Agenda.
+- event_start_date (DATE, NOT NULL): Start date.
+- event_end_date (DATE, NOT NULL): End date (CHECK: end >= start).
+
+TABLE: event_projects
+Purpose: Junction table linking events to multiple projects (Many-to-Many).
+- ep_id (int4, SERIAL, PK)
+- event_id (int4, NOT NULL, FK -> event): Parent event.
+- project_id (int4, NOT NULL, FK -> project): Associated project.
+
+TABLE: task
+Purpose: Specific action items linked to projects.
+- task_id (int4, SERIAL, PK)
+- task_description (varchar(200), NOT NULL): What needs to be done.
+- task_assignment_date (DATE, NOT NULL): Date work began.
+- task_due_date (DATE, NOT NULL): Deadline (CHECK: due >= assignment).
+- project_id (int4, NOT NULL, FK -> project): Parent project.
+- completion (measures, NOT NULL, DEFAULT 'unassigned'): Current progress status.
+- completion_weightage (int4, NOT NULL, DEFAULT 3): Impact on total project completion.
+
+TABLE: task_assignment
+Purpose: Maps club members to specific tasks.
+- assignment_id (int4, SERIAL, PK)
+- task_id (int4, NOT NULL, FK -> task): Assigned task.
+- member_id (int4, NOT NULL, FK -> club_member, ON DELETE SET NULL): Assigned member.
+
+TABLE: task_resources
+Purpose: Tracks which resources are being used for which task.
+- resource_assignment_id (int4, SERIAL, PK)
+- task_id (int4, NOT NULL, FK -> task): Task requiring resource.
+- resource_id (int4, UNIQUE, NOT NULL, FK -> resource): Resource being used.
+- member_id (int4, FK -> club_member): Member responsible for resource.
+
+TABLE: task_attachment
+Purpose: Stores metadata for files/deliverables uploaded for specific tasks.
+- attachment_id (int4, SERIAL, PK)
+- task_id (int4, NOT NULL, FK -> task): Target task.
+- member_id (int4, FK -> club_member): Uploader.
+- file_name (varchar(255), NOT NULL): Name of the file.
+- file_url (TEXT, NOT NULL): Storage location link.
+- file_type (varchar(50), NOT NULL): Extension/MIME type.
+- file_uploaded_at (timestamp, DEFAULT CURRENT_TIMESTAMP).
+
+TABLE: position
+Purpose: Defines specific roles held by members during an event (e.g., Coordinator).
+- positions_id (int4, SERIAL, PK)
+- member_id (int4, NOT NULL, FK -> club_member): Participating member.
+- event_id (int4, NOT NULL, FK -> event): Target event.
+- event_role (varchar(100), NOT NULL): Role title (e.g., "Lead Organizer").
+
+TABLE: applicants
+Purpose: External candidates applying to join the club.
+- applicant_id (int4, SERIAL, PK)
+- applicant_name (varchar(100), NOT NULL): Full name.
+- password_hash (varchar(60), NOT NULL): Encrypted password for applicant portal.
+- applicant_roll_no (varchar(20), UNIQUE, NOT NULL): Roll number.
+- applicant_email (varchar(100), UNIQUE, NOT NULL): Contact email.
+- application_time_stamp (timestamp, DEFAULT CURRENT_TIMESTAMP): Submission time.
+- status (applicant_status, NOT NULL, DEFAULT 'pending'): Interview/Review status.
+- domain (domains, NOT NULL): Preferred department.
+- application_url (TEXT, NOT NULL): Link to resume/portfolio.
+
+TABLE: tag
+Purpose: A central registry to link discussion posts to members, tasks, projects, or events.
+- tag_id (int4, SERIAL, PK)
+- member_id (int4, FK -> club_member): Tagged member.
+- task_id (int4, FK -> task): Tagged task.
+- project_id (int4, FK -> project): Tagged project.
+- event_id (int4, FK -> event): Tagged event.
+- post_id (int4, FK -> discussion_box): Associated discussion thread.
+
+TABLE: discussion_box
+Purpose: Internal forum for communication and ideas.
+- post_id (int4, SERIAL, PK)
+- discussion_header (TEXT): Subject line (Optional for comments).
+- discussion_body (TEXT): Main content.
+- discussion_tag (tags, NOT NULL): Categorization of the post.
+- tag_id (int4, FK -> tag): Reference link to entity.
+- member_id (int4, NOT NULL, FK -> club_member): Author.
+- votes (int4, NOT NULL, DEFAULT 0): Aggregate score from vote table.
+- uploaded_at (timestamp, NOT NULL, DEFAULT CURRENT_TIMESTAMP).
+
+TABLE: vote
+Purpose: Tracks unique votes per member per post to prevent duplicates.
+- vote_id (int4, SERIAL, PK)
+- post_id (int4, NOT NULL, FK -> discussion_box): Target post.
+- member_id (int4, NOT NULL, FK -> club_member): Voter.
+- value (flags, NOT NULL): Up, Down, or Flag.
+- UNIQUE (post_id, member_id): Ensures one vote per person per post.
+
+TABLE: handle_request
+Purpose: System for members to request assignment to a specific task.
+- request_id (int4, SERIAL, PK)
+- member_id (int4, NOT NULL, FK -> club_member): Applicant.
+- task_id (int4, NOT NULL, FK -> task): Requested task.
+- UNIQUE (member_id, task_id): Prevents duplicate requests.
+
+------------------------------------------------------------
+3. TRIGGERS & PROCEDURAL LOGIC
+------------------------------------------------------------
+
+FUNCTION: check_resource_allocation()
+Triggered: BEFORE DELETE ON task
+Logic: Prevents a task from being deleted if there are still active resource 
+       allocations linked to it. If clear, it cleans up task_resources.
+
+FUNCTION: resource_sync()
+Triggered: AFTER INSERT/UPDATE/DELETE ON task_resources
+Logic: Automatically updates the 'resource_status' in the resource table to 
+       'assigned' or 'unassigned' based on its presence in task_resources.
+
+FUNCTION: voting()
+Triggered: BEFORE INSERT/UPDATE/DELETE ON vote
+Logic: Synchronizes the 'votes' count in discussion_box. It handles increments for 
+       'up', decrements for 'down', and logic for switching votes (e.g., from up to down).
+
+FUNCTION: task_assign()
+Triggered : BEFORE INSERT/DELETE ON task_assignment
+Logic : Synchronizes Completion Status for task. Sets assigned when task_assignment has a new INSERT,
+        Sets unassigned when task_assignment is deleted.
+
+============================================================
+END OF DOCUMENTATION
+============================================================

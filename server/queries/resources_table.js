@@ -6,7 +6,10 @@ const myResources =     `SELECT r.resource_id , r.resource_name , tr.task_id , t
                          LEFT JOIN task t ON tr.task_id  = t.task_id
                          WHERE tr.member_id = ($1)`;
 
+const retriveResource = `DELETE FROM task_resources WHERE resource_assignment_id = $1`;
+
 module.exports = {
     availableResources ,
-    myResources
+    myResources ,
+    retriveResource
 }

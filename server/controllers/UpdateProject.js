@@ -1,15 +1,23 @@
+//import path and use path to properly locate pool and query
 const path = require('path');
-const db = require(path.resolve(__dirname , '../pool.js'));
-const query = require(path.resolve(__dirname , '../queries/project_table.js'));
+const db = require(path.resolve(__dirname, '../pool.js'));
+const query = require(path.resolve(__dirname, '../queries/project_table.js'));
 
-const handleRequest = async(req,res) => {
-    try
-    {
-        const result = await db.query(query.handleRequest , [req.user.member_id , req.body.task_id]);
-        res.status(200).json({success : true , message: "request sent"});
+const deleteMember = async (req, res) => {
+    //console.log("reached here");
+    try {
+        const data = req.body;
+        const result = await db.query(query.updateProject , [data.project_name , data.project_description , data.project_start_date , data.project_end_date , data.project_id]);
+        if(result.rowCount == 0)
+        {
+            res.status(404).json({success : false , message : "project not found"});
+        }
+        else
+        {
+            res.status(200).json({success : true , message : "Project modified"});
+        }      
     }
-    catch(error)
-    {
+    catch (error) { 
         console.log(`${error.code}`);
         console.log(`${error}`)
         // 1. Handle Duplicates (e.g., Email already exists)
@@ -43,6 +51,6 @@ const handleRequest = async(req,res) => {
             });
         }
     }
-};
+}
 
-module.exports = handleRequest;
+module.exports = deleteMember;

@@ -1,36 +1,23 @@
+//import path and use path to properly locate pool and query
 const path = require('path');
 const db = require(path.resolve(__dirname, '../pool.js'));
-const query = require(path.resolve(__dirname, '../queries/members_table.js'));
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-require('dotenv').config({path : path.resolve(__dirname , '../../.env')});
+const query = require(path.resolve(__dirname, '../queries/task_table.js'));
 
-const SignIn = async (req, res) => {
-    try 
-    {
-        const req_data = req.body;
-        const result = await db.query(query.getMember_id, [req_data.member_roll_no]);
-        if (result.rowCount == 0 || result.rows[0].status === 'left') 
+const deleteMember = async (req, res) => {
+    //console.log("reached here");
+    try {
+        const data = req.body;
+        const result = await db.query(query.setTaskStatus , [data.completion , data.task_id]);
+        if(result.rowCount == 0)
         {
-            res.status(404).json({ success: false, message: "No user found" });
+            res.status(404).json({success : false , message : "Task not found"});
         }
-        else 
+        else
         {
-            if (await bcrypt.compare(req_data.password, result.rows[0].password_hash)) 
-            {
-                const user = {member_id : result.rows[0].member_id , member_name : result.rows[0].member_name , member_role : result.rows[0].member_role};
-                const token = jwt.sign(user , process.env.jwt_key , {expiresIn : '15m'});
-                res.cookie('authorization' , token , {httpOnly: true , secure : true , sameSite : 'Strict' , maxAge : 15*60*1000});  
-                res.status(200).json({ success: true, message: "valid password" , data : {member_id : result.rows[0].member_id , member_name : result.rows[0].member_name}});
-            }
-            else 
-            {
-                res.status(401).json({ success: false, message: "Invalid password" });
-            }
+            res.status(200).json({success : true , message : "task updated"});
         }
     }
-    catch (error) 
-    {
+    catch (error) { 
         console.log(`${error.code}`);
         console.log(`${error}`)
         // 1. Handle Duplicates (e.g., Email already exists)
@@ -66,4 +53,4 @@ const SignIn = async (req, res) => {
     }
 }
 
-module.exports = SignIn;
+module.exports = deleteMember;
