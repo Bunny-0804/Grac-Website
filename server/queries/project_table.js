@@ -19,21 +19,21 @@ const getProjectDetails =   `SELECT t.task_id,
 
                             --members_lat: lateral left join for member names as a object
                             LEFT JOIN LATERAL 
-                            ( SELECT json_agg( json_build_object( 'member_name', m.member_name)) AS data
+                            ( SELECT json_agg( json_build_object( 'member_name', m.member_name , 'assignment_id' , ta.assignment_id)) AS data
                               FROM task_assignment ta
                               LEFT JOIN club_member m ON m.member_id = ta.member_id
                               WHERE ta.task_id = t.task_id ) members_lat ON TRUE 
 
                             --attachment_lat.data: lateral left join for task_attachment details as a object
                             LEFT JOIN LATERAL
-                            ( SELECT json_agg(json_build_object( 'file_name' , tat.file_name , 'file_type' , tat.file_type , 'file_url' , tat.file_url , 'file_author' , mc.member_name , 'file_uploaded_at' , tat.file_uploaded_at)) AS data
+                            ( SELECT json_agg(json_build_object( 'attachment_id' , tat.attachment_id , 'file_name' , tat.file_name , 'file_type' , tat.file_type , 'file_url' , tat.file_url , 'file_author' , mc.member_name , 'file_uploaded_at' , tat.file_uploaded_at)) AS data
                               FROM task_attachment tat
                               LEFT JOIN club_member mc ON mc.member_id = tat.member_id
                               WHERE tat.task_id = t.task_id) attachment_lat ON TRUE
                             
                             --resource_lat.data: lateral left join for task_resources as a object
                             LEFT JOIN LATERAL 
-                            ( SELECT json_agg( json_build_object( 'resource_name', r.resource_name , 'member_name' , cmc.member_name)) AS data
+                            ( SELECT json_agg( json_build_object( 'resource_assignment_id' , tr.resource_assignment_id , 'resource_name', r.resource_name , 'member_name' , cmc.member_name)) AS data
                               FROM task_resources tr
                               LEFT JOIN resource r ON r.resource_id = tr.resource_id
                               LEFT JOIN club_member cmc ON cmc.member_id = tr.member_id
@@ -71,9 +71,15 @@ const project_lookup = `SELECT  p.project_id,
 
 const handleRequest = `INSERT INTO handle_request(member_id , task_id) VALUES ($1 , $2)`;
 
+const addProject = `INSERT INTO project(project_name , project_description , project_start_date , project_end_date ) VALUES($1 , $2 , $3 , $4)`;
+const updateProject = `UPDATE project SET project_name = $1 , project_description = $2 , project_start_date = $3 , project_end_date = $4 WHERE project_id = $5`;
+
+
 module.exports = {
     getProjects,
-    getProjectDetails , 
+    getProjectDetails ,
     project_lookup,
-    handleRequest
+    handleRequest,
+    addProject ,
+    updateProject
 } ;

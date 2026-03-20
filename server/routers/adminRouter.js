@@ -1,11 +1,27 @@
 const path = require('path');
 const express = require('express');
 const { viewApplicants } = require('../queries/applicant_table');
+const { updateTaskResource } = require('../queries/task_table');
 const router = express.Router();
 
 //controllers
 const AdmitMember = require(path.resolve(__dirname,'../controllers/AdmitMember.js'));
 const ViewApplicants = require(path.resolve(__dirname,'../controllers/ApplicantsView.js'));
+const DeleteApplicant = require(path.resolve(__dirname,'../controllers/DeleteApplicant.js'));
+const AddProject = require(path.resolve(__dirname,'../controllers/AddProject.js'));
+const AddTask = require(path.resolve(__dirname,'../controllers/AddTasks.js'));
+const AssignResource = require(path.resolve(__dirname,'../controllers/AssignTaskResource.js'));
+const DeleteMember = require(path.resolve(__dirname,'../controllers/DeleteMember.js'));
+const DeleteTaskAssignment = require(path.resolve(__dirname,'../controllers/DeleteTaskAssignment.js'));
+const DeleteTask = require(path.resolve(__dirname,'../controllers/DeleteTasks.js'));
+const RetriveResource = require(path.resolve(__dirname,'../controllers/RetriveResource.js'));
+const SetRole = require(path.resolve(__dirname,'../controllers/SetMemberRole.js'));
+const SetStatus = require(path.resolve(__dirname,'../controllers/SetMemberStatus.js'));
+const SetTaskStatus = require(path.resolve(__dirname , '../controllers/setTaskStatus.js'));
+const UpdateProject = require(path.resolve(__dirname , '../controllers/UpdateProject.js'));
+const UpdateResourceAssignment = require(path.resolve(__dirname , '../controllers/UpdateTaskResource.js'));
+const UpdateTask = require(path.resolve(__dirname , '../controllers/UpdateTasks.js'));
+
 
 //Check if admin
 const adminCheck = (req,res,next) => {
@@ -30,8 +46,21 @@ const LeadCheck = (req,res,next) => {
     }
 };
 
-router.post('/AdmitMember', adminCheck , AdmitMember);
 router.get('/ViewApplicants', LeadCheck , ViewApplicants);
-
+router.post('/AdmitMember', adminCheck , AdmitMember);
+router.post('/SetRole', adminCheck , SetRole);
+router.post('/SetStatus', adminCheck , SetStatus);
+router.post('/AddProject', LeadCheck , AddProject);
+router.post('/AddTask', LeadCheck , AddTask);
+router.post('/SetTaskStatus', LeadCheck , SetTaskStatus);
+router.post('/UpdateProject', LeadCheck , UpdateProject);
+router.post('/UpdateTask', LeadCheck , UpdateTask);
+router.post('/UpdateResourceAssignment', adminCheck , UpdateResourceAssignment);
+router.post('/AssignResource', adminCheck , AssignResource);
+router.post('/DeleteApplicant' , adminCheck , DeleteApplicant);
+router.post('/DeleteMember' , adminCheck , DeleteMember);
+router.post('/DeleteTaskAssignment', LeadCheck , DeleteTaskAssignment);
+router.post('/DeleteTask', LeadCheck , DeleteTask);
+router.post('/RetriveResource', adminCheck , RetriveResource);
 
 module.exports = router;

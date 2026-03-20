@@ -1,0 +1,2 @@
+--ALTER TABLE task_attachment ALTER COLUMN member_id INT NULL;
+--executed before saving
