@@ -1,6 +1,7 @@
 const path = require('path');
 const https = require('https');
 const express = require('express');
+const cors = require('cors')
 const fs = require('fs');
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
@@ -10,7 +11,15 @@ const adminRouter = require(path.resolve(__dirname,'./routers/adminRouter.js'));
 const memberRouter = require(path.resolve(__dirname,'./routers/memberRouter.js'));
 const userRouter = require(path.resolve(__dirname,'./routers/userRouter.js'));
 
+const corsPolicy = {
+    origin : "https://localhost:5173" , 
+    methods : "GET , POST" , 
+    allowedHeaders : [ 'Content-Type' , 'authorization'] , 
+    credentials : true
+}
+
 const app = express();
+app.use(cors(corsPolicy));
 const port = process.env.env_port;
 
 
@@ -56,14 +65,15 @@ const authenticate = (req,res,next) => {
     
 }
 
+//console.log("Reached primary router");
 app.use('/api/user',userRouter);
-
 app.use('/api/member', authenticate , memberRouter);
 app.use('/api/admin' , authenticate , adminRouter);
+//console.log("Primary router executed");
 
 const ssServer = https.createServer({ 
-    key: fs.readFileSync(path.resolve(__dirname,'./certificates/localhost+1-key.pem')) ,
-    cert: fs.readFileSync(path.resolve(__dirname,'./certificates/localhost+1.pem')) } , app);
+    key: fs.readFileSync(path.resolve(__dirname,'./certificates/localhost-key.pem')) ,
+    cert: fs.readFileSync(path.resolve(__dirname,'./certificates/localhost.pem')) } , app);
     
 ssServer.listen(port, ()=> {console.log(`Server is running on port ${port}`)});
 
