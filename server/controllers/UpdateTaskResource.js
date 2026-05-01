@@ -10,7 +10,7 @@ const deleteMember = async (req, res) => {
         const result = await db.query(query.updateTaskResource , [data.resource_id , data.member_id , data.resource_assignment_id]);
         if(result.rowCount == 0)
         {
-            res.status(404).json({success : false , message : "resource assignment not found"});
+            res.status(204).json({success : false , message : "resource assignment not found"});
         }
         else
         {

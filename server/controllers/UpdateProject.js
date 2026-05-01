@@ -10,7 +10,7 @@ const deleteMember = async (req, res) => {
         const result = await db.query(query.updateProject , [data.project_name , data.project_description , data.project_start_date , data.project_end_date , data.project_id]);
         if(result.rowCount == 0)
         {
-            res.status(404).json({success : false , message : "project not found"});
+            res.status(204).json({success : false , message : "project not found"});
         }
         else
         {

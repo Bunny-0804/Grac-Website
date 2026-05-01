@@ -12,7 +12,7 @@ const SignIn = async (req, res) => {
         const result = await db.query(query.getMember_id, [req_data.member_roll_no]);
         if (result.rowCount == 0 || result.rows[0].status === 'left') 
         {
-            res.status(404).json({ success: false, message: "No user found" });
+            res.status(204).json({ success: false, message: "No user found" });
         }
         else 
         {
@@ -20,7 +20,7 @@ const SignIn = async (req, res) => {
             {
                 const user = {member_id : result.rows[0].member_id , member_name : result.rows[0].member_name , member_role : result.rows[0].member_role};
                 const token = jwt.sign(user , process.env.jwt_key , {expiresIn : '15m'});
-                res.cookie('authorization' , token , {httpOnly: true , secure : true , sameSite : 'Strict' , maxAge : 15*60*1000});  
+                res.cookie('Authorization' , token , {httpOnly: true , secure : true , sameSite : 'Strict' , maxAge : 15*60*1000});  
                 res.status(200).json({ success: true, message: "valid password" , data : {member_id : result.rows[0].member_id , member_name : result.rows[0].member_name}});
             }
             else 

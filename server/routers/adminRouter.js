@@ -48,14 +48,14 @@ const LeadCheck = (req,res,next) => {
 
 router.get('/ViewApplicants', LeadCheck , ViewApplicants);
 router.post('/AdmitMember', adminCheck , AdmitMember);
-router.post('/SetRole', adminCheck , SetRole);
-router.post('/SetStatus', adminCheck , SetStatus);
+router.put('/SetRole', adminCheck , SetRole);
+router.put('/SetStatus', adminCheck , SetStatus);
 router.post('/AddProject', LeadCheck , AddProject);
 router.post('/AddTask', LeadCheck , AddTask);
-router.post('/SetTaskStatus', LeadCheck , SetTaskStatus);
-router.post('/UpdateProject', LeadCheck , UpdateProject);
-router.post('/UpdateTask', LeadCheck , UpdateTask);
-router.post('/UpdateResourceAssignment', adminCheck , UpdateResourceAssignment);
+router.put('/SetTaskStatus', LeadCheck , SetTaskStatus);
+router.put('/UpdateProject', LeadCheck , UpdateProject);
+router.put('/UpdateTask', LeadCheck , UpdateTask);
+router.put('/UpdateResourceAssignment', adminCheck , UpdateResourceAssignment);
 router.post('/AssignResource', adminCheck , AssignResource);
 router.post('/DeleteApplicant' , adminCheck , DeleteApplicant);
 router.post('/DeleteMember' , adminCheck , DeleteMember);

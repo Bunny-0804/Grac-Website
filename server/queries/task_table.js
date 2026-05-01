@@ -8,6 +8,10 @@ const assignTaskResource = `INSERT INTO task_resources(task_id , resource_id , m
 const updateTaskResource = `UPDATE task_resources SET resource_id = $1 , member_id = $2 WHERE resource_assignment_id = $3`;
 const uploadAttachment = `INSERT INTO task_attachment(task_id , file_name , file_url , file_type , file_uploaded_at , member_id) VALUES($1 , $2 , $3 , $4 , $5 , $6)`;
 const deleteAttachment = `DELETE FROM task_attachment WHERE attachment_id = $1 AND (member_id = $2 OR member_role = $3)`;
+const adminUpload = `INSERT INTO admin_upload(member_id , file_name , file_type , task_id) VALUES($1 , $2 , $3 , $4)`;
+const getUploadRequests = `SELECT * FROM admin_upload WHERE request_status = 'pending'`;
+const updateAttachment = `UPDATE task_attachment SET status = 'successfull' WHERE attachment_id = $1`;
+
 
 module.exports = {
     addtask ,
@@ -19,5 +23,8 @@ module.exports = {
     assignTaskResource , 
     updateTaskResource ,
     uploadAttachment ,
-    deleteAttachment
+    updateAttachment ,
+    deleteAttachment ,
+    adminUpload , 
+    getUploadRequests
 }

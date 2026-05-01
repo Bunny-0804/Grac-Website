@@ -1,23 +1,15 @@
-//import path and use path to properly locate pool and query
 const path = require('path');
-const db = require(path.resolve(__dirname, '../pool.js'));
-const query = require(path.resolve(__dirname, '../queries/members_table.js'));
+const db = require(path.resolve(__dirname , '../pool.js'));
+const query = require(path.resolve(__dirname , '../queries/task_table.js'));
 
-const deleteMember = async (req, res) => {
-    //console.log("reached here");
-    try {
-        const data = req.body;
-        const result = await db.query(query.deleteMember , [data.member_id]);
-        if(result.rowCount == 0)
-        {
-            res.status(204).json({success : false , message : "No memeber found to be deleted"});
-        }
-        else
-        {
-            res.status(200).json({success : true , message : "member permanently deleted"});
-        }
+const handleRequest = async(req,res) => {
+    try
+    {
+        const result = await db.query(query.adminUpload , [req.user.member_id , req.body.file_name , req.body.file_type , req.body.task_id]);
+        res.status(200).json({success : true , message: "request sent"});
     }
-    catch (error) { 
+    catch(error)
+    {
         console.log(`${error.code}`);
         console.log(`${error}`)
         // 1. Handle Duplicates (e.g., Email already exists)
@@ -51,6 +43,6 @@ const deleteMember = async (req, res) => {
             });
         }
     }
-}
+};
 
-module.exports = deleteMember;
+module.exports = handleRequest;

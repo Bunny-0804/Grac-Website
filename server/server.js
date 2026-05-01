@@ -33,7 +33,7 @@ app.use(cookieParser());
 */
 
 const authenticate = (req,res,next) => {
-    const token = req.cookies.authorization;
+    const token = req.cookies.Authorization;
     if(!token)
     {
         res.status(401).json({success: false , message : "session token not found"});

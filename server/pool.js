@@ -5,9 +5,9 @@ require('dotenv').config({path: path.resolve(__dirname,'../.env')});
 const { Pool } = require('pg');
 const pool = new Pool(
     {
-        user: 'jeevan',
-        host: 'localhost',
-        database: 'grac_db',
+        user: process.env.database_user ,
+        host: process.env.database_host,
+        database: process.env.database_name,
         password: process.env.Db_password,
         port:process.env.db_port,
 
