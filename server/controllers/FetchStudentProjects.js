@@ -10,7 +10,7 @@ const FetchStudentProjects = async(req,res) => {
         const result = await db.query(query.project_lookup,[req_data.member_id]);
         if(result.rowCount == 0)
         {
-            res.status(404).json({success:false, message: "No data found for the member id , check input fields"});
+            res.status(204).json({success:false, message: "No data found for the member id , check input fields"});
         }
         else
         {

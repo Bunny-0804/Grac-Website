@@ -3,7 +3,7 @@ const db = require(path.resolve(__dirname,'../pool.js'));
 const query = require(path.resolve(__dirname,'../queries/project_table.js'));
 
 const ProjectDetails = async(req,res) => {
-    console.log("Reached here");
+    //console.log("Reached here");
     try
     {
         const req_data = req.query;

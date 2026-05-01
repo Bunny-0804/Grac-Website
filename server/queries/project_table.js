@@ -26,10 +26,10 @@ const getProjectDetails =   `SELECT t.task_id,
 
                             --attachment_lat.data: lateral left join for task_attachment details as a object
                             LEFT JOIN LATERAL
-                            ( SELECT json_agg(json_build_object( 'attachment_id' , tat.attachment_id , 'file_name' , tat.file_name , 'file_type' , tat.file_type , 'file_url' , tat.file_url , 'file_author' , mc.member_name , 'file_uploaded_at' , tat.file_uploaded_at)) AS data
+                            ( SELECT json_agg(json_build_object( 'attachment_id' , tat.attachment_id , 'file_name' , tat.file_name , 'file_type' , tat.file_type , 'file_url' , tat.file_url , 'file_author' , mc.member_name , 'file_uploaded_at' , tat.file_uploaded_at , 'file_status' , tat.status)) AS data
                               FROM task_attachment tat
                               LEFT JOIN club_member mc ON mc.member_id = tat.member_id
-                              WHERE tat.task_id = t.task_id) attachment_lat ON TRUE
+                              WHERE tat.task_id = t.task_id AND (tat.status != 'pending' OR tat.status != 'failed')) attachment_lat ON TRUE
                             
                             --resource_lat.data: lateral left join for task_resources as a object
                             LEFT JOIN LATERAL 

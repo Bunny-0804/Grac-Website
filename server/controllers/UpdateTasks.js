@@ -10,7 +10,7 @@ const deleteMember = async (req, res) => {
         const result = await db.query(query.updatetask , [data.task_description , data.task_assignment_date , data.task_due_date , data.completion_weightage , data.task_id]);
         if(result.rowCount == 0)
         {
-            res.status(404).json({success : false , message : "task not found"});
+            res.status(204).json({success : false , message : "task not found"});
         }
         else
         {

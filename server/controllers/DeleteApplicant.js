@@ -10,7 +10,7 @@ const deleteApplicant = async (req, res) => {
         const result = await db.query(query.deleteApplicant , [data.applicant_id]);
         if(result.rowCount == 0)
         {
-            res.status(404).json({success : false , message : "No Applicant found to be deleted"});
+            res.status(204).json({success : false , message : "No Applicant found to be deleted"});
         }
         else
         {

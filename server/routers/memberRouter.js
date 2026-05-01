@@ -18,7 +18,7 @@ const RefreshToken = require(path.resolve(__dirname, '../controllers/RefreshToke
 const LogOut = require(path.resolve(__dirname, '../controllers/LogOut.js'));
 const HandleRequest = require(path.resolve(__dirname, '../controllers/TaskHandleRequest.js'));
 const deleteAttachment = require(path.resolve(__dirname, '../controllers/DeleteAttachment.js'));
-const uploadAttachment = require(path.resolve(__dirname , '../controllers/UploadAttachment.js'));
+//const uploadAttachment = require(path.resolve(__dirname , '../controllers/UploadAttachment.js'));
 
 console.log("Test member Router");
 
@@ -35,7 +35,7 @@ router.get('/getByTagsLatest',getByTagsLatest);
 router.get('/getByTagsTop',getByTagsTop);
 router.get('/RefreshToken',RefreshToken);
 router.get('/LogOut',LogOut);
-router.post('/UploadAttachment',uploadAttachment);
+//router.post('/UploadAttachment',uploadAttachment);
 router.post('/DeleteAttachment',deleteAttachment);
 router.post('/HandleRequest',HandleRequest);
 router.post('/post',Post);
